@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "sorting_service"
+
+config = ARGV[0] || "./config.rb"
+unless File.exists?(config)
+  puts <<-EOF.gsub /^\s+/, ""
+  Arquivo de configuração não encontrado
+  modo de uso: #{__FILE__} <configfile>
+  EOF
+  exit
+end
+
+config_file = File.read(config)
+sorting_service = eval("SortingService::Interpreter.new { #{config_file} }")
+
